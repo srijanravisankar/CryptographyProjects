@@ -1,5 +1,5 @@
 import aes
-import ciphersonic
+import audio
 
 import base64
 
@@ -19,14 +19,14 @@ def send_message():
     print(ciphertext_b64)
 
     # encode and output the sound
-    ciphersonic.encode_sound(ciphertext_b64)
+    audio.encode_sound(ciphertext_b64)
 
 # decode and decrypt the sound waves into message
 def receive_message():
     print("Hello from listen sound!")
 
     # Listen and decode the sound
-    ciphertext_b64 = ciphersonic.decode_sound()
+    ciphertext_b64 = audio.decode_sound()
     # ciphertext_b64 = "CejogwNL9MfabLgEJOtbgMa6MtDgFllC4r8BAfDlzyc="
     key = b"mysecretkey12345"
 

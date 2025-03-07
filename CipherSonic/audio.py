@@ -19,6 +19,7 @@ def encode_sound(ciphertext):
 def decode_sound():
     p = pyaudio.PyAudio()
 
+    # stream = p.open(format=pyaudio.paFloat32, channels=1, rate=48000, input=True, frames_per_buffer=1024)
     stream = p.open(format=pyaudio.paFloat32, channels=1, rate=48000, input=True, frames_per_buffer=1024)
 
     print('Listening ... Press Ctrl+C to stop')
