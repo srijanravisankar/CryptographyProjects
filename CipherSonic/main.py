@@ -5,8 +5,6 @@ import base64
 
 # encrypt and encode the message into sound waves
 def send_message():
-    print("Hello from play sound!")
-
     # get the message from user
     plaintext = input("Type your message: ")
     key = b"mysecretkey12345"
@@ -23,11 +21,8 @@ def send_message():
 
 # decode and decrypt the sound waves into message
 def receive_message():
-    print("Hello from listen sound!")
-
-    # Listen and decode the sound
+    # listen and decode the sound
     ciphertext_b64 = audio.decode_sound()
-    # ciphertext_b64 = "CejogwNL9MfabLgEJOtbgMa6MtDgFllC4r8BAfDlzyc="
     key = b"mysecretkey12345"
 
     if not ciphertext_b64:
@@ -41,7 +36,7 @@ def receive_message():
         print(f"Base64 decoding error: {e}")
         return
 
-    # Decrypt the message
+    # decrypt and output the message
     try:
         plaintext = aes.decrypt_data(ciphertext_bytes, key)
         print("Decrypted Message:", plaintext)
