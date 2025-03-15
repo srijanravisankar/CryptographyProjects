@@ -6,6 +6,8 @@ import base64
 
 # Function to encrypt data using AES
 def encrypt_data(plaintext, key):
+    print(f"Encrypting text '{plaintext}' ...")
+
     # Ensure the key is 16 bytes (128 bits)
     key = key.ljust(16, b'\0')[:16]
     
