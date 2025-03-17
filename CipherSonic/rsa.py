@@ -4,7 +4,7 @@ import http.server
 import socketserver
 from Crypto.PublicKey import RSA
 
-from main import send_message
+from main import send_message, receive_message
 
 import requests
 
@@ -36,7 +36,7 @@ def start_http_server(port=8000):
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Serving public key at: http://{get_local_ip()}:{port}/public.pem")
         send_message(f"http://{get_local_ip()}:{port}/public.pem")
-        httpd.serve_forever()
+        httpd.handle_request()
 
 def share_url():
     # Generate RSA keys

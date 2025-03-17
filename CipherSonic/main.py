@@ -44,18 +44,19 @@ def receive_message():
 def main():
     print("Hello from main!")
 
-    # ask if the user want to send or listen
-    choice = input("Do you want to send [S] or listen [L] message (or) share [SU] or get [GU] URL?: ")
+    while True:
+        # ask if the user want to send or listen
+        choice = input("Do you want to send [S] or listen [L] message (or) share [SU] or get [GU] URL?: ")
 
-    # call the function according to the user choice
-    if choice == "S":
-        send_message()
-    elif choice == "L":
-        receive_message()
-    elif choice == "SU":
-        rsa.share_url()
-    elif choice == "GU":
-        rsa.get_url()
+        # call the function according to the user choice
+        if choice == "S":
+            send_message()
+        elif choice == "L":
+            receive_message()
+        elif choice == "SU":
+            rsa.share_url()
+        elif choice == "GU":
+            rsa.get_url()
 
 if __name__ == "__main__":
     main()
