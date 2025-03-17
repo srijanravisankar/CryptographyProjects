@@ -1,6 +1,6 @@
 import aes
+import rsa
 import audio
-
 import base64
 
 # encrypt and encode the message into sound waves
@@ -37,6 +37,7 @@ def receive_message():
     try:
         plaintext = aes.decrypt_data(ciphertext_bytes, key)
         print("Decrypted Message:", plaintext)
+        return plaintext
     except Exception as e:
         print(f"Decryption error: {e}")
 
@@ -44,14 +45,17 @@ def main():
     print("Hello from main!")
 
     # ask if the user want to send or listen
-    choice = input("Do you want to send [S] or listen [L] message?: ")
+    choice = input("Do you want to send [S] or listen [L] message (or) share [SU] or get [GU] URL?: ")
 
     # call the function according to the user choice
     if choice == "S":
         send_message()
     elif choice == "L":
         receive_message()
-
+    elif choice == "SU":
+        rsa.share_url()
+    elif choice == "GU":
+        rsa.get_url()
 
 if __name__ == "__main__":
     main()
