@@ -5,6 +5,7 @@ import socketserver
 from Crypto.PublicKey import RSA
 
 from main import send_message, receive_message
+from audio import encode_sound, decode_sound
 
 import requests
 
@@ -35,7 +36,7 @@ def start_http_server(port=8000):
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Serving public key at: http://{get_local_ip()}:{port}/public.pem")
-        send_message(f"http://{get_local_ip()}:{port}/public.pem")
+        encode_sound(f"http://{get_local_ip()}:{port}/public.pem")
         httpd.handle_request()
 
 def share_url():
@@ -56,7 +57,7 @@ def share_url():
 
 def get_url():
     # Replace with the correct URL
-    server_url = receive_message()
+    server_url = encode_sound()
 
     # Download the public key
     response = requests.get(server_url)

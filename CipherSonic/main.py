@@ -46,7 +46,7 @@ def main():
 
     while True:
         # ask if the user want to send or listen
-        choice = input("Do you want to send [S] or listen [L] message (or) share [SU] or get [GU] URL?: ")
+        choice = input("Do you want to send [S] or listen [L] message (or) share [SU] or get [GU] URL (or) share [SK] or get [GK] key?: ")
 
         # call the function according to the user choice
         if choice == "S":
