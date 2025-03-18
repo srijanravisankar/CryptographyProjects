@@ -87,11 +87,6 @@ def send_message():
     print("\nStarting HTTP server to share the message...")
     rsa.start_http_server_message(port=8003)
 
-    # Send HTTP link via sound
-    server_url = f"http://{rsa.get_local_ip()}:8003/message.txt"
-    print(f"🔹 Sending Message URL: {server_url}")
-    audio.encode_sound(server_url)
-
     return jsonify({"status": "Message link sent!"})
 
 # Message Receiving
