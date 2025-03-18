@@ -57,7 +57,7 @@ def share_url():
 
 def get_url():
     # Replace with the correct URL
-    server_url = encode_sound()
+    server_url = decode_sound()
 
     # Download the public key
     response = requests.get(server_url)
