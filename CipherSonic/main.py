@@ -6,7 +6,6 @@ import base64
 import rsa
 import requests
 
-
 key = b"mysecretkey12345"
 
 def share_key():
@@ -108,7 +107,8 @@ def main():
 
         # call the function according to the user choice
         if choice == "S":
-            send_message()
+            message = input("Enter your message: ")
+            send_message(message)
         elif choice == "L":
             receive_message()
         elif choice == "SU":

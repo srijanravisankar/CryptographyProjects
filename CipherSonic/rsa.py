@@ -46,7 +46,7 @@ def start_http_server_key(port=8001):
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Serving encrypted key at: http://{get_local_ip()}:{port}/encrypted_key.pem")
-        audio.encode_sound(f"http://{get_local_ip()}:{port}/encrypted_key.pem")  # Send the link via sound
+        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_key.pem")  # Send the link via sound
         httpd.handle_request()  # Serve one request and exit
 
 def share_url():
