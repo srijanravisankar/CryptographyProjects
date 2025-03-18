@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Key Exchange</title>
+    <title>Key Exchange</title>
 </head>
 <body>
-    <h1>Public Key Exchange</h1>
+    <h1>Key Exchange</h1>
 
+    <h2>Public Key Exchange</h2>
     <button onclick="exchangePublicKey('send')">Send Public Key</button>
     <button onclick="exchangePublicKey('receive')">Receive Public Key</button>
+
+    <h2>AES Key Exchange</h2>
+    <button onclick="exchangeAESKey('send')">Send AES Key</button>
+    <button onclick="exchangeAESKey('receive')">Receive AES Key</button>
 
     <p id="status"></p>
 
     <script>
         function exchangePublicKey(action) {
             fetch("/public_key", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: action })
+            }).then(response => response.json())
+              .then(data => document.getElementById("status").innerText = data.status);
+        }
+
+        function exchangeAESKey(action) {
+            fetch("/aes_key", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ action: action })
