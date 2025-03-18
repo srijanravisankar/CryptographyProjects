@@ -69,6 +69,10 @@ def get_url():
     # Replace with the correct URL
     server_url = decode_sound()
 
+    if not server_url:
+        print("Error: Failed to decode URL into text.")
+        return
+
     # Download the public key
     response = requests.get(server_url)
     if response.status_code == 200:

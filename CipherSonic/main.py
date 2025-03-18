@@ -6,10 +6,14 @@ import base64
 import rsa
 import requests
 
-key = b"mysecretkey12345"
+import secrets
+
+key = None
 
 def share_key():
     global key  # AES key for encryption
+    key = secrets.token_hex(8).encode()
+    print(key)
 
     # Load public key
     with open("received_public.pem", "rb") as f:
@@ -57,7 +61,7 @@ def get_key():
     # Decrypt the AES key
     try:
         key = rsa.decrypt_key(private_key_pem, encrypted_key)
-        print(f"✅ Decrypted AES Key: {key.decode()}")
+        print(f"✅ Decrypted AES Key: {key}")
     except Exception as e:
         print(f"❌ Decryption error: {e}")
 
@@ -75,9 +79,10 @@ def send_message(plaintext):
 
 # decode and decrypt the sound waves into message
 def receive_message():
+    global key
+    
     # listen and decode the sound
     ciphertext_b64 = audio.decode_sound()
-    key = b"mysecretkey12345"
 
     if not ciphertext_b64:
         print("Error: Failed to decode sound into text.")
