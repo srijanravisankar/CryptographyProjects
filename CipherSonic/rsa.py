@@ -98,3 +98,9 @@ def decrypt_key(private_key_pem: bytes, encrypted_key_b64: str) -> bytes:
     encrypted_bytes = base64.b64decode(encrypted_key_b64)
     return cipher.decrypt(encrypted_bytes)  # Decrypt and return the AES key
 
+def start_http_server_message(port=8002):
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", port), handler) as httpd:
+        print(f"🔹 Serving encrypted message at: http://{get_local_ip()}:{port}/encrypted_message.pem")
+        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_message.pem")  # Send the link via sound
+        httpd.handle_request()  # Serve one request and exit
