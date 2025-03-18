@@ -1,8 +1,11 @@
 import os
+import base64
 import socket
 import http.server
 import socketserver
+
 from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 
 from main import send_message, receive_message
 from audio import encode_sound, decode_sound
@@ -39,6 +42,13 @@ def start_http_server(port=8000):
         encode_sound(f"http://{get_local_ip()}:{port}/public.pem")
         httpd.handle_request()
 
+def start_http_server_key(port=8001):
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", port), handler) as httpd:
+        print(f"Serving encrypted key at: http://{get_local_ip()}:{port}/encrypted_key.pem")
+        audio.encode_sound(f"http://{get_local_ip()}:{port}/encrypted_key.pem")  # Send the link via sound
+        httpd.handle_request()  # Serve one request and exit
+
 def share_url():
     # Generate RSA keys
     private_key, public_key = generate_keys()
@@ -71,3 +81,16 @@ def get_url():
         print("Public key downloaded and ready for encryption!")
     else:
         print("Failed to fetch public key")
+
+def encrypt_key(public_key_pem: bytes, aes_key: bytes) -> str:
+    public_key = RSA.import_key(public_key_pem)
+    cipher = PKCS1_OAEP.new(public_key)
+    encrypted_bytes = cipher.encrypt(aes_key)
+    return base64.b64encode(encrypted_bytes).decode()  # Convert to Base64 string
+
+def decrypt_key(private_key_pem: bytes, encrypted_key_b64: str) -> bytes:
+    private_key = RSA.import_key(private_key_pem)
+    cipher = PKCS1_OAEP.new(private_key)
+    encrypted_bytes = base64.b64decode(encrypted_key_b64)
+    return cipher.decrypt(encrypted_bytes)  # Decrypt and return the AES key
+

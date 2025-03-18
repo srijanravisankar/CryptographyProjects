@@ -3,11 +3,69 @@ import rsa
 import audio
 import base64
 
+import rsa
+import requests
+
+
+key = b"mysecretkey12345"
+
+def share_key():
+    global key  # AES key for encryption
+
+    # Load public key
+    with open("received_public.pem", "rb") as f:
+        public_key_pem = f.read()
+
+    # Encrypt AES key using RSA public key
+    encrypted_key = rsa.encrypt_key(public_key_pem, key)
+
+    # Save encrypted AES key to a file for HTTP sharing
+    with open("encrypted_key.pem", "w") as f:
+        f.write(encrypted_key)
+
+    print("Encrypted AES key saved as encrypted_key.pem")
+
+    # Start HTTP server
+    print("\nStarting HTTP server to share the encrypted key...")
+    rsa.start_http_server_key(port=8001)  # Serve encrypted_key.pem
+
+def get_key():
+    global key
+
+    # Receive the URL via sound
+    server_url = audio.decode_sound()
+    
+    if not server_url:
+        print("❌ Error: Failed to receive encrypted key URL")
+        return
+
+    print(f"🔹 Received encrypted key URL: {server_url}")
+
+    # Fetch the encrypted AES key from the server
+    response = requests.get(server_url)
+
+    if response.status_code == 200:
+        encrypted_key = response.text.strip()
+        print(f"🔐 Retrieved Encrypted AES Key: {encrypted_key}")
+    else:
+        print("❌ Error: Failed to download the encrypted key")
+        return
+
+    # Load private key
+    with open("private.pem", "rb") as f:
+        private_key_pem = f.read()
+
+    # Decrypt the AES key
+    try:
+        key = rsa.decrypt_key(private_key_pem, encrypted_key)
+        print(f"✅ Decrypted AES Key: {key.decode()}")
+    except Exception as e:
+        print(f"❌ Decryption error: {e}")
+
+
 # encrypt and encode the message into sound waves
 def send_message(plaintext):
-    # get the message from user
-    # plaintext = input("Type your message: ")
-    key = b"mysecretkey12345"
+    global key
 
     # encrypt the message
     ciphertext = aes.encrypt_data(plaintext, key)
@@ -57,6 +115,10 @@ def main():
             rsa.share_url()
         elif choice == "GU":
             rsa.get_url()
+        elif choice == "SK":
+            share_key()
+        elif choice == "GK":
+            get_key()
 
 if __name__ == "__main__":
     main()
