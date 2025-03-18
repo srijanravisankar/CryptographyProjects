@@ -1,6 +1,6 @@
 __pycache__/
 private.pem
-public.pem
+public.pems
 received_public.pem
 encrypted_key.pem
 encrypted_message.pem

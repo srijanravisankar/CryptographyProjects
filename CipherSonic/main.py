@@ -96,12 +96,6 @@ def send_message(plaintext):
     print("\nStarting HTTP server to share the encrypted message...")
     rsa.start_http_server_message(port=8002)  # Serve encrypted_message.pem
 
-    # Send HTTP link via sound
-    server_url = f"http://{rsa.get_local_ip()}:8002/encrypted_message.pem"
-    print(f"🔹 Sending encrypted message URL: {server_url}")
-    audio.encode_sound(server_url)
-
-
 # decode and decrypt the sound waves into message
 # def receive_message():
 #     global key
