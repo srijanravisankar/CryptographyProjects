@@ -59,10 +59,10 @@
 
     <h2>Send a Message</h2>
     <input type="text" id="message" placeholder="Type a message">
-    <button onclick="sendMessage()">Send Message</button>
+    <button onclick="exchangeMessage('send')">Send Message</button>
 
     <h2>Receive a Message</h2>
-    <button onclick="receiveMessage()">Receive Message</button>
+    <button onclick="exchangeMessage('receive')">Receive Message</button>
 
     <p id="status"></p>
 
@@ -78,6 +78,15 @@
 
         function exchangeAESKey(action) {
             fetch("/aes_key", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ action: action })
+            }).then(response => response.json())
+              .then(data => document.getElementById("status").innerText = data.status);
+        }
+
+        function exchangeMessage(action) {
+            fetch("/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ action: action })
