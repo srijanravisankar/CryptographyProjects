@@ -67,16 +67,6 @@ def get_key():
 
 
 # encrypt and encode the message into sound waves
-# def send_message(plaintext):
-#     global key
-
-#     # encrypt the message
-#     ciphertext = aes.encrypt_data(plaintext, key)
-#     ciphertext_b64 = base64.b64encode(ciphertext).decode('utf-8')
-
-#     # encode and output the sound
-#     audio.encode_sound(ciphertext_b64)
-
 def send_message(plaintext):
     global key
 
@@ -97,31 +87,6 @@ def send_message(plaintext):
     rsa.start_http_server_message(port=8002)  # Serve encrypted_message.pem
 
 # decode and decrypt the sound waves into message
-# def receive_message():
-#     global key
-
-#     # listen and decode the sound
-#     ciphertext_b64 = audio.decode_sound()
-
-#     if not ciphertext_b64:
-#         print("Error: Failed to decode sound into text.")
-#         return
-
-#     # ensure correct Base64 decoding
-#     try:
-#         ciphertext_bytes = base64.b64decode(ciphertext_b64)  # Correct Base64 decoding
-#     except Exception as e:
-#         print(f"Base64 decoding error: {e}")
-#         return
-
-#     # decrypt and output the message
-#     try:
-#         plaintext = aes.decrypt_data(ciphertext_bytes, key)
-#         print("Decrypted Message:", plaintext)
-#         return plaintext
-#     except Exception as e:
-#         print(f"Decryption error: {e}")
-
 def receive_message():
     global key
 
