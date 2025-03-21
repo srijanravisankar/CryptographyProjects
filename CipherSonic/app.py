@@ -46,7 +46,7 @@ def message():
         return jsonify({"status": "Message link sent!"})
     elif action == "receive":
         message = main.receive_message()
-        if not server_url:
+        if not message:
             return jsonify({"error": "Failed to receive message"}), 400
         print(f"🔹 Received Message: {message}")
         return jsonify({"status": "Received: " + message})
