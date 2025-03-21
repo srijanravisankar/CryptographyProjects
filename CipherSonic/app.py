@@ -45,17 +45,11 @@ def message():
         main.send_message(message)
         return jsonify({"status": "Message link sent!"})
     elif action == "receive":
-        server_url = main.receive_message()
+        message = main.receive_message()
         if not server_url:
-            return jsonify({"error": "Failed to receive message URL"}), 400
-        print(f"🔹 Received Message URL: {server_url}")
-        response = requests.get(server_url)
-        if response.status_code == 200:
-            message = response.text.strip()
-            print(f"📩 Retrieved Message: {message}")
-            return jsonify({"status": "Received: " + message})
-        else:
-            return jsonify({"error": "Failed to fetch message"}), 400
+            return jsonify({"error": "Failed to receive message"}), 400
+        print(f"🔹 Received Message: {message}")
+        return jsonify({"status": "Received: " + message})
     return jsonify({"error": "Invalid action!"}), 400
 
 if __name__ == "__main__":
