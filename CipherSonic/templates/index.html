@@ -1,44 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Exchange</title>
-</head>
-<body>
-    <h1>Message Exchange</h1>
-
-    <h2>Send a Message</h2>
-    <input type="text" id="message" placeholder="Type a message">
-    <button onclick="sendMessage()">Send Message</button>
-
-    <h2>Receive a Message</h2>
-    <button onclick="receiveMessage()">Receive Message</button>
-
-    <p id="status"></p>
-
-    <script>
-        function sendMessage() {
-            let message = document.getElementById("message").value;
-            fetch("/send_message", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: message })
-            }).then(response => response.json())
-              .then(data => document.getElementById("status").innerText = data.status);
-        }
-
-        function receiveMessage() {
-            fetch("/receive_message", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            }).then(response => response.json())
-              .then(data => document.getElementById("status").innerText = "Received: " + data.message);
-        }
-    </script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,14 +52,6 @@
                 body: JSON.stringify({ action: action, message: message })
             }).then(response => response.json())
               .then(data => document.getElementById("status").innerText = data.status);
-        }
-
-        function receiveMessage() {
-            fetch("/receive_message", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" }
-            }).then(response => response.json())
-              .then(data => document.getElementById("status").innerText = "Received: " + data.message);
         }
     </script>
 </body>
