@@ -39,7 +39,7 @@ def aes_key():
 def message():
     action = request.json["action"]
     if action == "send":
-        message = request.json["message"]
+        message = request.json["input-message"]
         with open("message.txt", "w") as f:
             f.write(message)
         main.send_message(message)
