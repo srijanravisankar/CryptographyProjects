@@ -36,7 +36,7 @@ def aes_key():
 
 # Message Exchange
 @app.route("/message", methods=["POST"])
-def aes_key():
+def message():
     action = request.json["action"]
     if action == "send":
         message = request.json["message"]
