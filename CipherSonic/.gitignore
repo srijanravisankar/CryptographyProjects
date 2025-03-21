@@ -4,3 +4,4 @@ public.pem
 received_public.pem
 encrypted_key.pem
 encrypted_message.pem
+message.txt
