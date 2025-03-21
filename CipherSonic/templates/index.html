@@ -86,20 +86,11 @@
         }
 
         function exchangeMessage(action) {
+            let message = document.getElementById("message").value;
             fetch("/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ action: action })
-            }).then(response => response.json())
-              .then(data => document.getElementById("status").innerText = data.status);
-        }
-
-        function sendMessage() {
-            let message = document.getElementById("message").value;
-            fetch("/send_message", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({ action: action, message: message })
             }).then(response => response.json())
               .then(data => document.getElementById("status").innerText = data.status);
         }

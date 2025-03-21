@@ -39,7 +39,7 @@ def aes_key():
 def message():
     action = request.json["action"]
     if action == "send":
-        message = request.json["input-message"]
+        message = request.json["message"]
         with open("message.txt", "w") as f:
             f.write(message)
         main.send_message(message)
@@ -53,7 +53,7 @@ def message():
         if response.status_code == 200:
             message = response.text.strip()
             print(f"📩 Retrieved Message: {message}")
-            return jsonify({"message": message})
+            return jsonify({"status": "Received: " + message})
         else:
             return jsonify({"error": "Failed to fetch message"}), 400
     return jsonify({"error": "Invalid action!"}), 400
