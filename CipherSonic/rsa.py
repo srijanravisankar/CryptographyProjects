@@ -46,8 +46,8 @@ def start_http_server_key(port=8001):
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"Serving encrypted key at: http://{get_local_ip()}:{port}/encrypted_key.pem")
-        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_key.pem")  # Send the link via sound
-        httpd.handle_request()  # Serve one request and exit
+        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_key.pem")
+        httpd.handle_request()
 
 def share_url():
     # Generate RSA keys
@@ -90,18 +90,18 @@ def encrypt_key(public_key_pem: bytes, aes_key: bytes) -> str:
     public_key = RSA.import_key(public_key_pem)
     cipher = PKCS1_OAEP.new(public_key)
     encrypted_bytes = cipher.encrypt(aes_key)
-    return base64.b64encode(encrypted_bytes).decode()  # Convert to Base64 string
+    return base64.b64encode(encrypted_bytes).decode()
 
 def decrypt_key(private_key_pem: bytes, encrypted_key_b64: str) -> bytes:
     private_key = RSA.import_key(private_key_pem)
     cipher = PKCS1_OAEP.new(private_key)
     encrypted_bytes = base64.b64decode(encrypted_key_b64)
-    return cipher.decrypt(encrypted_bytes)  # Decrypt and return the AES key
+    return cipher.decrypt(encrypted_bytes)
 
 def start_http_server_message(port=8002):
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", port), handler) as httpd:
         print(f"🔹 Serving encrypted message at: http://{get_local_ip()}:{port}/encrypted_message.pem")
-        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_message.pem")  # Send the link via sound
-        httpd.handle_request()  # Serve one request and exit
+        encode_sound(f"http://{get_local_ip()}:{port}/encrypted_message.pem")
+        httpd.handle_request()
 
