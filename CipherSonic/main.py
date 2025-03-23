@@ -33,6 +33,8 @@ def share_key():
     print("\n✅ Starting HTTP server to share the encrypted AES key...")
     rsa.start_http_server_key(port=8001)
 
+    return True
+
 # decode and decrypt the sound waves into key
 def get_key():
     global key
