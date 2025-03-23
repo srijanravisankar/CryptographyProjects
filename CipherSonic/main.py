@@ -11,13 +11,14 @@ import os
 
 key = None
 
+# encrypt and encode the key into sound waves
 def share_key():
     global key  
     key = secrets.token_bytes(16)
 
     if not os.path.exists("received_public.pem"):
         print("❌ Error: Public key not received yet. Exchange public keys first!")
-        return  
+        return False
 
     with open("received_public.pem", "rb") as f:
         public_key_pem = f.read()
@@ -32,6 +33,7 @@ def share_key():
     print("\n✅ Starting HTTP server to share the encrypted AES key...")
     rsa.start_http_server_key(port=8001)
 
+# decode and decrypt the sound waves into key
 def get_key():
     global key
 
