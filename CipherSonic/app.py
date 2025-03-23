@@ -10,7 +10,7 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-# public Key Exchange
+# Public Key Exchange
 @app.route("/public_key", methods=["POST"])
 def public_key():
     action = request.json["action"]
@@ -18,6 +18,7 @@ def public_key():
         rsa.share_url()
         return jsonify({"status": "Public key shared!"})
     elif action == "receive":
+        print("👂 Listening to public key ... ")
         rsa.get_url()
         return jsonify({"status": "Public key received!"})
     return jsonify({"error": "Invalid action!"}), 400
@@ -30,6 +31,7 @@ def aes_key():
         main.share_key()
         return jsonify({"status": "AES key shared!"})
     elif action == "receive":
+        print("👂 Listening to AES key ... ")
         main.get_key()
         return jsonify({"status": "AES key received!"})
     return jsonify({"error": "Invalid action!"}), 400
@@ -45,6 +47,7 @@ def message():
         main.send_message(message)
         return jsonify({"status": "Message link sent!"})
     elif action == "receive":
+        print("👂 Listening to messages ... ")
         message = main.receive_message()
         if not message:
             return jsonify({"error": "Failed to receive message"}), 400

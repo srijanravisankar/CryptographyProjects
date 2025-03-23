@@ -1,5 +1,10 @@
 import ggwave
 import pyaudio
+import threading
+
+# global GGWave instance
+ggwave_instance = None
+lock = threading.Lock()
 
 # enocde the message to sound waves
 def encode_sound(ciphertext):
@@ -17,34 +22,42 @@ def encode_sound(ciphertext):
 
 # decode the sound waves to message
 def decode_sound():
+    global ggwave_instance
+
+    # ensure only one GGWave instance is created
+    with lock:
+        if ggwave_instance is None:
+            ggwave_instance = ggwave.init()
+
     p = pyaudio.PyAudio()
-
     stream = p.open(format=pyaudio.paFloat32, channels=1, rate=48000, input=True, frames_per_buffer=1024)
-
-    print('Listening ... Press Ctrl+C to stop')
-    instance = ggwave.init()
 
     ciphertext = None
 
     try:
         while True:
             data = stream.read(1024, exception_on_overflow=False)
-            res = ggwave.decode(instance, data)
-            if (not res is None):
+            res = ggwave.decode(ggwave_instance, data)
+            if res:
                 try:
                     ciphertext = res.decode("utf-8").strip()
-                    print('Received text: ' + ciphertext)
+                    print('🎵 Received text:', ciphertext)
                     break
-                except:
-                    pass
+                except Exception as e:
+                    print(f"❌ Decoding error: {e}")
     except KeyboardInterrupt:
         pass
-
-    ggwave.free(instance)
-
-    stream.stop_stream()
-    stream.close()
-
-    p.terminate()
+    finally:
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
 
     return ciphertext
+
+# function to free GGWave instance when done
+def free_ggwave():
+    global ggwave_instance
+    with lock:
+        if ggwave_instance is not None:
+            ggwave.free(ggwave_instance)
+            ggwave_instance = None
