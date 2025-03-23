@@ -32,11 +32,6 @@ def share_key():
     print("\n✅ Starting HTTP server to share the encrypted AES key...")
     rsa.start_http_server_key(port=8001)
 
-    server_url = f"http://{rsa.get_local_ip()}:8001/encrypted_key.pem"
-    print(f"🔹 Sending Encrypted Key URL: {server_url}")
-    audio.encode_sound(server_url)
-
-
 def get_key():
     global key
 
@@ -66,7 +61,6 @@ def get_key():
     except Exception as e:
         print(f"❌ Decryption error: {e}")
 
-
 # encrypt and encode the message into sound waves
 def send_message(plaintext):
     global key
@@ -86,11 +80,6 @@ def send_message(plaintext):
 
     print("\nStarting HTTP server to share the encrypted message...")
     rsa.start_http_server_message(port=8003)
-
-    server_url = f"http://{rsa.get_local_ip()}:8003/encrypted_message.pem"
-    print(f"🔹 Sending Encrypted Message URL: {server_url}")
-    audio.encode_sound(server_url)
-
 
 # decode and decrypt the sound waves into message
 def receive_message():
